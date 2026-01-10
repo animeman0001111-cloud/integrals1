@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Numerical Approximation of Definite Integrals</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#f0f9ff,#fff7ed);
+}
+
+.page{
+  max-width:1200px;
+  margin:40px auto;
+  padding:60px;
+  background:#ffffff;
+  border-radius:32px;
+  box-shadow:0 40px 120px rgba(0,0,0,.22);
+}
+
+h1{
+  text-align:center;
+  font-size:46px;
+  padding:22px 60px;
+  border-radius:28px;
+  border:6px solid #0284c7;
+  display:inline-block;
+  background:white;
+  animation:titleReveal 1.4s ease forwards;
+}
+
+@keyframes titleReveal{
+  from{opacity:0; transform:translateY(-50px) scale(.7)}
+  to{opacity:1; transform:none}
+}
+
+.subtitle{
+  text-align:center;
+  font-size:22px;
+  margin:30px 0 70px;
+  opacity:0;
+  animation:fadeUp 1.2s ease forwards;
+  animation-delay:.4s;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(30px)}
+  to{opacity:1; transform:none}
+}
+
+/* ===== CARDS ===== */
+.card{
+  margin-bottom:90px;
+  padding:48px;
+  border-radius:32px;
+  background:
+    linear-gradient(#ffffff,#fdf4ff) padding-box,
+    linear-gradient(135deg,#0284c7,#22c55e,#f97316) border-box;
+  border:4px solid transparent;
+  box-shadow:0 30px 80px rgba(0,0,0,.18);
+  opacity:0;
+  transform:translateY(180px) scale(.85);
+}
+
+.card.show{
+  animation:cardRise 2.4s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes cardRise{
+  0%{opacity:0; transform:translateY(180px) scale(.85)}
+  65%{opacity:1; transform:translateY(-18px) scale(1.06)}
+  100%{opacity:1; transform:none}
+}
+
+h2{
+  font-size:32px;
+  color:#0284c7;
+  margin-bottom:20px;
+}
+
+p{
+  font-size:20px;
+  line-height:1.8;
+}
+
+.formula{
+  text-align:center;
+  font-size:28px;
+  padding:26px;
+  border-radius:20px;
+  background:#e0f2fe;
+  margin:26px 0;
+}
+
+/* ===== GRAPH ===== */
+.graph{
+  width:100%;
+  height:320px;
+  margin-top:40px;
+}
+
+.axis{
+  stroke:#888;
+  stroke-width:2;
+}
+
+.curve{
+  fill:none;
+  stroke:#0284c7;
+  stroke-width:3;
+  stroke-dasharray:1000;
+  stroke-dashoffset:1000;
+}
+
+.rect{
+  fill:rgba(34,197,94,.35);
+  stroke:#16a34a;
+}
+
+.trap{
+  fill:rgba(249,115,22,.35);
+  stroke:#ea580c;
+}
+
+.simpson{
+  fill:rgba(168,85,247,.35);
+  stroke:#7c3aed;
+}
+
+.card.show .curve{
+  animation:drawCurve 2s ease forwards;
+}
+
+@keyframes drawCurve{to{stroke-dashoffset:0}}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<center><h1>Numerical Approximation of Definite Integrals</h1></center>
+<div class="subtitle">
+Correct graphical interpretation of Riemann sums, Trapezoidal rule, and Simpson’s rule
+</div>
+
+<!-- RIEMANN SUM -->
+<div class="card">
+<h2>📐 Riemann Sum (Left Endpoint)</h2>
+<p>
+The interval is divided into equal subintervals. Rectangles are drawn using the
+left-endpoint value of the function. All rectangles lie completely
+<b>below the curve</b> for an increasing function.
+</p>
+
+<div class="formula">
+∫₀² x² dx ≈ Σ f(xᵢ) · Δx
+</div>
+
+<svg class="graph" viewBox="0 0 400 300">
+  <!-- axes -->
+  <line class="axis" x1="40" y1="260" x2="360" y2="260"/>
+  <line class="axis" x1="40" y1="260" x2="40" y2="20"/>
+
+  <!-- rectangles under y=x^2 -->
+  <rect class="rect" x="40"  y="260" width="40" height="0"/>
+  <rect class="rect" x="80"  y="244" width="40" height="16"/>
+  <rect class="rect" x="120" y="212" width="40" height="48"/>
+  <rect class="rect" x="160" y="164" width="40" height="96"/>
+  <rect class="rect" x="200" y="100" width="40" height="160"/>
+
+  <!-- curve y=x^2 -->
+  <path class="curve" d="M40 260 C 120 240, 200 140, 280 40"/>
+</svg>
+</div>
+
+<!-- TRAPEZOIDAL RULE -->
+<div class="card">
+<h2>📊 Trapezoidal Rule</h2>
+<p>
+In the trapezoidal rule, the top of each region is a straight line connecting
+two points on the curve. This gives a better approximation because the shape
+follows the curve more closely.
+</p>
+
+<div class="formula">
+∫₀² x² dx ≈ (h/2)[f(x₀)+2f(x₁)+f(x₂)]
+</div>
+
+<svg class="graph" viewBox="0 0 400 300">
+  <!-- axes -->
+  <line class="axis" x1="40" y1="260" x2="360" y2="260"/>
+  <line class="axis" x1="40" y1="260" x2="40" y2="20"/>
+
+  <!-- trapezoids -->
+  <polygon class="trap" points="40,260 80,244 80,260"/>
+  <polygon class="trap" points="80,244 120,212 120,260 80,260"/>
+  <polygon class="trap" points="120,212 160,164 160,260 120,260"/>
+  <polygon class="trap" points="160,164 200,100 200,260 160,260"/>
+
+  <!-- curve -->
+  <path class="curve" d="M40 260 C 120 240, 200 140, 280 40"/>
+</svg>
+</div>
+
+<!-- SIMPSON RULE -->
+<div class="card">
+<h2>📈 Simpson’s Rule</h2>
+<p>
+Simpson’s Rule approximates the curve using parabolic arcs over pairs of subintervals.
+This gives extremely accurate results for smooth curves like polynomials.
+</p>
+
+<div class="formula">
+∫₀² x² dx ≈ (h/3)[f(x₀)+4f(x₁)+f(x₂)]
+</div>
+
+<svg class="graph" viewBox="0 0 400 300">
+  <!-- axes -->
+  <line class="axis" x1="40" y1="260" x2="360" y2="260"/>
+  <line class="axis" x1="40" y1="260" x2="40" y2="20"/>
+
+  <!-- parabolic area -->
+  <path class="simpson" d="M40 260 Q 160 140 280 40 L280 260 Z"/>
+
+  <!-- actual curve -->
+  <path class="curve" d="M40 260 C 120 240, 200 140, 280 40"/>
+</svg>
+</div>
+
+</div>
+
+<script>
+const cards=document.querySelectorAll('.card');
+cards.forEach((card,i)=>{
+  setTimeout(()=>card.classList.add('show'),i*750);
+});
+</script>
+
+</body>
+</html>

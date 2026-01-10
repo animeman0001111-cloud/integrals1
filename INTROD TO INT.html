@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Introduction to Integration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ========== GLOBAL ========== */
+body{
+  margin:0;
+  font-family:'Segoe UI','Comic Sans MS',sans-serif;
+  background:linear-gradient(135deg,#ecfeff,#f0fdf4);
+}
+
+.page{
+  max-width:1100px;
+  margin:40px auto;
+  padding:60px;
+  background:#fffefc;
+  border-radius:28px;
+  box-shadow:0 40px 120px rgba(0,0,0,.28);
+}
+
+/* ========== TITLE ========== */
+h1{
+  text-align:center;
+  font-size:44px;
+  border:6px solid #0f766e;
+  display:inline-block;
+  padding:20px 60px;
+  border-radius:24px;
+  background:white;
+  animation:titlePop 1.4s ease both;
+}
+
+@keyframes titlePop{
+  from{opacity:0; transform:scale(.6) translateY(-30px)}
+  to{opacity:1; transform:none}
+}
+
+.subtitle{
+  text-align:center;
+  font-size:22px;
+  margin:30px 0 60px;
+  opacity:0;
+  animation:subtitleIn 1.2s ease forwards;
+  animation-delay:.4s;
+}
+
+@keyframes subtitleIn{
+  from{opacity:0; transform:translateY(30px)}
+  to{opacity:1; transform:none}
+}
+
+/* ========== CARD SECTIONS ========== */
+.section{
+  margin-bottom:50px;
+  padding:38px;
+  border-radius:28px;
+  position:relative;
+  overflow:hidden;
+  opacity:0;
+  transform:
+    perspective(1400px)
+    translateY(200px)
+    scale(0.75)
+    rotateX(28deg);
+
+  border:3px solid transparent;
+  background:
+    linear-gradient(180deg,#ffffff,#ecfeff) padding-box,
+    linear-gradient(135deg,#14b8a6,#22c55e,#84cc16,#facc15) border-box;
+}
+
+.section::before{
+  content:"";
+  position:absolute;
+  inset:-50%;
+  background:linear-gradient(120deg,transparent,rgba(20,184,166,.35),transparent);
+  transform:translateX(-120%) rotate(8deg);
+  pointer-events:none;
+}
+
+.section.show{
+  animation:cardCinematic 2.6s cubic-bezier(.16,1,.3,1) forwards,
+             borderFlow 4s linear forwards;
+}
+
+.section.show::before{
+  animation:lightSweep 2s ease forwards;
+}
+
+@keyframes cardCinematic{
+  0%{
+    opacity:0;
+    transform:
+      perspective(1400px)
+      translateY(200px)
+      scale(0.75)
+      rotateX(28deg);
+  }
+  45%{
+    opacity:1;
+    transform:
+      perspective(1400px)
+      translateY(-32px)
+      scale(1.08)
+      rotateX(-12deg);
+  }
+  70%{
+    transform:
+      perspective(1400px)
+      translateY(14px)
+      scale(0.96)
+      rotateX(4deg);
+  }
+  100%{
+    opacity:1;
+    transform:
+      perspective(1400px)
+      translateY(0)
+      scale(1)
+      rotateX(0deg);
+  }
+}
+
+@keyframes lightSweep{
+  to{transform:translateX(120%) rotate(8deg)}
+}
+
+@keyframes borderFlow{
+  0%{background-position:0% 50%,0% 50%}
+  100%{background-position:0% 50%,300% 50%}
+}
+
+/* ========== HEADINGS ========== */
+h2{
+  font-size:26px;
+  color:#0f766e;
+  margin-bottom:14px;
+}
+
+/* ========== FORMULA BOX ========== */
+.formula{
+  text-align:center;
+  font-size:28px;
+  line-height:2;
+  padding:22px;
+  margin-top:18px;
+  border-radius:18px;
+  background:#ecfeff;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.06);
+  opacity:0;
+}
+
+.section.show .formula{
+  animation:formulaZoom .9s ease forwards;
+  animation-delay:.4s;
+}
+
+@keyframes formulaZoom{
+  from{opacity:0; transform:scale(.85)}
+  to{opacity:1; transform:none}
+}
+
+/* ========== LIST CARDS ========== */
+ul{font-size:20px; padding-left:0}
+
+li{
+  list-style:none;
+  margin:14px 0;
+  padding:16px 20px;
+  border-radius:16px;
+  background:#ffffff;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  opacity:0;
+  transform:translateX(-30px);
+}
+
+.section.show li{
+  animation:listSlide .6s ease forwards;
+}
+
+.section.show li:nth-child(1){animation-delay:.3s}
+.section.show li:nth-child(2){animation-delay:.5s}
+.section.show li:nth-child(3){animation-delay:.7s}
+
+@keyframes listSlide{
+  to{opacity:1; transform:none}
+}
+
+/* ========== GRAPH ========== */
+.graph{
+  width:100%;
+  height:260px;
+  margin-top:24px;
+}
+
+.curve{
+  fill:none;
+  stroke:#0f766e;
+  stroke-width:3;
+  stroke-dasharray:1000;
+  stroke-dashoffset:1000;
+}
+
+.area{
+  fill:rgba(20,184,166,.25);
+  opacity:0;
+}
+
+.section.show .curve{
+  animation:drawCurve 2s ease forwards;
+}
+
+.section.show .area{
+  animation:fillArea 1.6s ease forwards;
+  animation-delay:1.4s;
+}
+
+@keyframes drawCurve{to{stroke-dashoffset:0}}
+@keyframes fillArea{to{opacity:1}}
+
+.math{color:#0f766e;font-weight:bold}
+.good{color:#16a34a;font-weight:bold}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+  <center><h1>Introduction to Integration</h1></center>
+  <div class="subtitle">
+    Understanding area, accumulation, and the inverse of differentiation
+  </div>
+
+  <div class="section">
+    <h2>📌 What is Integration?</h2>
+    <p style="font-size:20px;">
+      <b>Integration</b> is a fundamental concept in calculus that represents
+      the <b>accumulation of quantities</b>, such as area under a curve.
+      It is also the <b>inverse operation of differentiation</b>.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>📐 Notation</h2>
+    <div class="formula">
+      <span class="math">∫ f(x) dx</span><br>
+      where ∫ is the integral sign<br>
+      f(x) is the integrand<br>
+      dx indicates integration with respect to x
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📊 Geometric Meaning</h2>
+    <ul>
+      <li>Represents the <b>area under a curve</b>.</li>
+      <li>Measures <b>total accumulation</b>.</li>
+      <li>Used to compute <span class="good">distance</span>, work, and probability.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📈 Graphical Representation</h2>
+    <p style="font-size:20px;">The shaded region shows the area under the curve <b>y = x²</b>.</p>
+
+    <svg class="graph" viewBox="0 0 400 260">
+      <!-- axes -->
+      <path d="M40 220 L360 220" stroke="#999"/>
+      <path d="M40 220 L40 20" stroke="#999"/>
+
+      <!-- curve -->
+      <path class="curve" d="M40 220 C 140 180, 260 60, 360 20"/>
+
+      <!-- area -->
+      <path class="area" d="M40 220 C 140 180, 260 60, 360 20 L360 220 Z"/>
+
+      <text x="255" y="70" fill="#0f766e">y = f(x)</text>
+      <text x="200" y="200" fill="#16a34a">Area</text>
+    </svg>
+  </div>
+
+  <div class="section">
+    <h2>✏ Example</h2>
+    <div class="formula">
+      ∫ x² dx = <br><br>
+      <span class="math">x³ / 3 + C</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const sections = document.querySelectorAll('.section');
+
+function playPreview(){
+  sections.forEach((sec,i)=>{
+    setTimeout(()=>{
+      sec.classList.add('show');
+    }, i*750);
+  });
+}
+
+playPreview();
+</script>
+
+</body>
+</html>

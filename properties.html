@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Properties and Techniques of Integration</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* ===== GLOBAL ===== */
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#fff7ed,#f0fdf4);
+}
+
+.page{
+  max-width:1200px;
+  margin:40px auto;
+  padding:60px;
+  background:#ffffff;
+  border-radius:32px;
+  box-shadow:0 40px 120px rgba(0,0,0,.2);
+}
+
+/* ===== TITLE ===== */
+h1{
+  text-align:center;
+  font-size:46px;
+  padding:22px 60px;
+  border-radius:26px;
+  border:6px solid #ea580c;
+  display:inline-block;
+  background:white;
+  animation:titleDrop 1.5s ease forwards;
+}
+
+@keyframes titleDrop{
+  from{opacity:0; transform:translateY(-40px) scale(.7)}
+  to{opacity:1; transform:none}
+}
+
+.subtitle{
+  text-align:center;
+  font-size:22px;
+  margin:30px 0 70px;
+  opacity:0;
+  animation:fadeUp 1.2s ease forwards;
+  animation-delay:.4s;
+}
+
+@keyframes fadeUp{
+  from{opacity:0; transform:translateY(30px)}
+  to{opacity:1; transform:none}
+}
+
+/* ===== CARDS ===== */
+.card{
+  margin-bottom:60px;
+  padding:42px;
+  border-radius:30px;
+  background:
+    linear-gradient(#ffffff,#fff7ed) padding-box,
+    linear-gradient(135deg,#ea580c,#22c55e,#38bdf8) border-box;
+  border:4px solid transparent;
+  box-shadow:0 28px 70px rgba(0,0,0,.18);
+  opacity:0;
+  transform:translateY(160px) scale(.85);
+}
+
+.card.show{
+  animation:cardFloat 2.2s cubic-bezier(.16,1,.3,1) forwards;
+}
+
+@keyframes cardFloat{
+  0%{opacity:0; transform:translateY(160px) scale(.85)}
+  60%{opacity:1; transform:translateY(-18px) scale(1.06)}
+  100%{opacity:1; transform:none}
+}
+
+/* ===== HOVER ===== */
+.card:hover{
+  transform:scale(1.03);
+  transition:.4s;
+  box-shadow:0 38px 100px rgba(0,0,0,.28);
+}
+
+/* ===== TEXT ===== */
+h2{
+  font-size:30px;
+  color:#ea580c;
+  margin-bottom:16px;
+}
+
+p,li{
+  font-size:20px;
+  line-height:1.65;
+}
+
+/* ===== FORMULA ===== */
+.formula{
+  text-align:center;
+  font-size:28px;
+  padding:26px;
+  border-radius:20px;
+  background:#ffedd5;
+  margin-top:22px;
+  opacity:0;
+}
+
+.card.show .formula{
+  animation:formulaPop .9s ease forwards;
+  animation-delay:.5s;
+}
+
+@keyframes formulaPop{
+  from{opacity:0; transform:scale(.7)}
+  to{opacity:1; transform:none}
+}
+
+/* ===== LIST ===== */
+ul{padding-left:0}
+
+li{
+  list-style:none;
+  margin:14px 0;
+  padding:16px 22px;
+  border-radius:16px;
+  background:white;
+  box-shadow:0 10px 24px rgba(0,0,0,.12);
+  opacity:0;
+  transform:translateX(-40px);
+}
+
+.card.show li{
+  animation:listReveal .6s ease forwards;
+}
+
+.card.show li:nth-child(1){animation-delay:.3s}
+.card.show li:nth-child(2){animation-delay:.5s}
+.card.show li:nth-child(3){animation-delay:.7s}
+.card.show li:nth-child(4){animation-delay:.9s}
+
+@keyframes listReveal{
+  to{opacity:1; transform:none}
+}
+
+.math{font-weight:bold;color:#ea580c}
+.good{font-weight:bold;color:#16a34a}
+
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+<center><h1>Properties & Techniques of Integration</h1></center>
+<div class="subtitle">Rules that simplify and methods that solve integrals</div>
+
+<!-- ===== CARD 1 ===== -->
+<div class="card">
+<h2>📌 Properties of Integration</h2>
+<ul>
+<li><span class="math">∫[f(x) + g(x)]dx = ∫f(x)dx + ∫g(x)dx</span></li>
+<li><span class="math">∫k·f(x)dx = k∫f(x)dx</span></li>
+<li><span class="math">∫ₐᵇ f(x)dx = −∫ᵇₐ f(x)dx</span></li>
+<li>If <span class="good">f(x) ≥ 0</span>, then area is positive</li>
+</ul>
+</div>
+
+<!-- ===== CARD 2 ===== -->
+<div class="card">
+<h2>📐 Fundamental Property</h2>
+<div class="formula">
+∫ₐᵇ f(x)dx = F(b) − F(a)
+</div>
+<p style="margin-top:18px;">
+This connects <b>differentiation</b> and <b>integration</b> and is known as the
+<b>Fundamental Theorem of Calculus</b>.
+</p>
+</div>
+
+<!-- ===== CARD 3 ===== -->
+<div class="card">
+<h2>🛠 Technique: Substitution</h2>
+<p>
+Used when an integral contains a composite function.
+</p>
+<div class="formula">
+∫ f(g(x))·g′(x) dx = ∫ f(u) du
+</div>
+</div>
+
+<!-- ===== CARD 4 ===== -->
+<div class="card">
+<h2>🛠 Technique: Integration by Parts</h2>
+<p>
+Used for products of functions.
+</p>
+<div class="formula">
+∫ u dv = u·v − ∫ v du
+</div>
+</div>
+
+<!-- ===== CARD 5 ===== -->
+<div class="card">
+<h2>✏ Why These Matter</h2>
+<p>
+These properties and techniques allow us to evaluate complex integrals,
+model physical problems, and compute exact areas and quantities.
+</p>
+</div>
+
+</div>
+
+<script>
+const cards=document.querySelectorAll('.card');
+cards.forEach((card,i)=>{
+  setTimeout(()=>card.classList.add('show'),i*650);
+});
+</script>
+
+</body>
+</html>
